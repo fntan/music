@@ -1,23 +1,39 @@
 <template>
   <div class="recommend" ref="recommend">
-    <div class="recommend-content">
-      <div v-if="recommends.length" class="slider-wrapper">
-        <slider>
-          <div v-for="item in recommends">
-            <a :href="item.linkUrl">
-              <img :src="item.picUrl" alt="">
-            </a>
+    <scroll class="recommend-content" :data="discList">
+      <div>
+          <div v-if="recommends.length" class="slider-wrapper">
+              <slider>
+                <div v-for="item in recommends">
+                  <a :href="item.linkUrl">
+                    <img :src="item.picUrl" alt="">
+                  </a>
+                </div>
+              </slider>
           </div>
-        </slider>
+          <div class="recommend-list">
+            <h1 class="list-title">热门歌单推荐</h1>
+            <ul>
+              <li v-for = "item in discList" class="item">
+                <div class="icon">
+                  <img :src="item.imgurl" class="icon-img">
+                </div>
+                <div class="text">
+                    <h2 class="name" v-html="item.creator.name"></h2>
+                    <p class="desc" v-html="item.dissname"></p>
+                </div>
+              </li>
+            </ul>
+          </div>
       </div>
-    </div>
+    </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Slider from 'base/slider/slider'
 //  import Loading from 'base/loading/loading'
-//  import Scroll from 'base/scroll/scroll'
+ import Scroll from 'base/scroll/scroll'
   import {getRecommend, getDiscList} from 'api/recommend'
 //  import {playlistMixin} from 'common/js/mixin'
   import {ERR_OK} from 'api/config'
@@ -34,7 +50,7 @@
     created() {
       this._getRecommend()
 
-//      this._getDiscList()
+     this._getDiscList()
     },
     methods: {
 //      handlePlaylist(playlist) {
@@ -62,13 +78,15 @@
           }
         })
       },
-//      _getDiscList() {
-//        getDiscList().then((res) => {
-//          if (res.code === ERR_OK) {
-//            this.discList = res.data.list
-//          }
-//        })
-//      },
+     _getDiscList() {
+       getDiscList().then((res) => {
+         if (res.code === ERR_OK) {
+           this.discList = res.data.list
+           console.log(this.discList);
+           
+         }
+       })
+     },
 //      ...mapMutations({
 //        setDisc: 'SET_DISC'
 //      })
@@ -76,7 +94,7 @@
     components: {
       Slider,
 //      Loading,
-//      Scroll
+     Scroll
     }
   }
 </script>
@@ -112,6 +130,9 @@
             flex: 0 0 60px
             width: 60px
             padding-right: 20px
+            .icon-img
+              width:60px
+              height 60px
           .text
             display: flex
             flex-direction: column
