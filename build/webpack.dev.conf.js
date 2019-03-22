@@ -11,10 +11,6 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
 const axios = require('axios')
-// var appData = require('../data.json')//加载本地数据文件
-// var seller = appData.seller//获取对应的本地数据
-// var goods = appData.goods
-// var ratings = appData.ratings
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)

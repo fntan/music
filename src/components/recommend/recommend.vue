@@ -16,7 +16,7 @@
             <ul>
               <li v-for = "item in discList" class="item">
                 <div class="icon">
-                  <img :src="item.imgurl" class="icon-img">
+                  <img v-lazy="item.imgurl" class="icon-img">
                 </div>
                 <div class="text">
                     <h2 class="name" v-html="item.creator.name"></h2>
@@ -26,13 +26,16 @@
             </ul>
           </div>
       </div>
+      <div class="loading-container" v-show="!discList.length">
+         <loading></loading>
+      </div>
     </scroll>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Slider from 'base/slider/slider'
-//  import Loading from 'base/loading/loading'
+ import Loading from 'base/loading/loading'
  import Scroll from 'base/scroll/scroll'
   import {getRecommend, getDiscList} from 'api/recommend'
 //  import {playlistMixin} from 'common/js/mixin'
@@ -50,7 +53,9 @@
     created() {
       this._getRecommend()
 
-     this._getDiscList()
+     setTimeout(() =>{
+       this._getDiscList()
+     },1000)
     },
     methods: {
 //      handlePlaylist(playlist) {
@@ -93,8 +98,8 @@
     },
     components: {
       Slider,
-//      Loading,
-     Scroll
+      Loading,
+      Scroll
     }
   }
 </script>
